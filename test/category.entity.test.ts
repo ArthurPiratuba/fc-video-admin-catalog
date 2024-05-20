@@ -1,9 +1,10 @@
 import { Category } from "../src/category/domain/category.entity";
+import { Uuid } from "../src/category/domain/value-objects/uuid.vo";
 
 describe('Category Without Validator Unit Tests', () => {
     test('constructor of category', () => {
         let category = new Category({ name: 'Movie' });
-        expect(category.category_id).toBeUndefined();
+        expect(category.category_id).toBeInstanceOf(Uuid);
         expect(category.name).toBe('Movie');
         expect(category.description).toBeNull();
         expect(category.is_active).toBe(true);
@@ -16,7 +17,7 @@ describe('Category Without Validator Unit Tests', () => {
             is_active: false,
             created_at,
         });
-        expect(category.category_id).toBeUndefined();
+        expect(category.category_id).toBeInstanceOf(Uuid);
         expect(category.name).toBe('Movie');
         expect(category.description).toBe('some description');
         expect(category.is_active).toBe(false);
@@ -26,7 +27,7 @@ describe('Category Without Validator Unit Tests', () => {
             name: 'Movie',
             description: 'other description',
         });
-        expect(category.category_id).toBeUndefined();
+        expect(category.category_id).toBeInstanceOf(Uuid);
         expect(category.name).toBe('Movie');
         expect(category.description).toBe('other description');
         expect(category.is_active).toBe(true);
@@ -36,7 +37,7 @@ describe('Category Without Validator Unit Tests', () => {
             name: 'Movie',
             is_active: true,
         });
-        expect(category.category_id).toBeUndefined();
+        expect(category.category_id).toBeInstanceOf(Uuid);
         expect(category.name).toBe('Movie');
         expect(category.description).toBeNull();
         expect(category.is_active).toBe(true);
@@ -47,7 +48,7 @@ describe('Category Without Validator Unit Tests', () => {
             name: 'Movie',
             created_at,
         });
-        expect(category.category_id).toBeUndefined();
+        expect(category.category_id).toBeInstanceOf(Uuid);
         expect(category.name).toBe('Movie');
         expect(category.description).toBeNull();
         expect(category.is_active).toBe(true);
@@ -59,7 +60,7 @@ describe('Category Without Validator Unit Tests', () => {
             const category = Category.create({
                 name: 'Movie',
             });
-            expect(category.category_id).toBeUndefined();
+            expect(category.category_id).toBeInstanceOf(Uuid);
             expect(category.name).toBe('Movie');
             expect(category.description).toBeNull();
             expect(category.is_active).toBe(true);
@@ -71,7 +72,7 @@ describe('Category Without Validator Unit Tests', () => {
                 name: 'Movie',
                 description: 'some description',
             });
-            expect(category.category_id).toBeUndefined();
+            expect(category.category_id).toBeInstanceOf(Uuid);
             expect(category.name).toBe('Movie');
             expect(category.description).toBe('some description');
             expect(category.is_active).toBe(true);
@@ -83,7 +84,7 @@ describe('Category Without Validator Unit Tests', () => {
                 name: 'Movie',
                 is_active: false,
             });
-            expect(category.category_id).toBeUndefined();
+            expect(category.category_id).toBeInstanceOf(Uuid);
             expect(category.name).toBe('Movie');
             expect(category.description).toBeNull();
             expect(category.is_active).toBe(false);
@@ -94,9 +95,9 @@ describe('Category Without Validator Unit Tests', () => {
     describe('category_id field', () => {
         const arrange = [{ id: null }, { id: undefined }, { id: "" }];
 
-        test.each(arrange)('should be is %j', (props) => {
+        test.each(arrange)('id = %j', (props) => {
             const category = new Category(props as any);
-            expect(category.category_id).toBeUndefined();
+            expect(category.category_id).toBeInstanceOf(Uuid);
         });
     });
 
