@@ -1,4 +1,4 @@
-import { Category } from "../src/domain/category.entity";
+import { Category } from "../src/category/domain/category.entity";
 
 describe('Category Without Validator Unit Tests', () => {
     test('constructor of category', () => {
