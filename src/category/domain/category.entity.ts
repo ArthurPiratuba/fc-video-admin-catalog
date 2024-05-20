@@ -1,3 +1,5 @@
+import { Entity } from "../../shared/domain/entity";
+import { CategoryValidatorFactory } from "./category.validator";
 import { Uuid } from "./value-objects/uuid.vo";
 
 export type CategoryConstructorProps = {
@@ -14,7 +16,7 @@ export type CategoryCreateCommand = {
     is_active?: boolean;
 }
 
-export class Category {
+export class Category extends Entity {
     category_id: Uuid;
     name: string;
     description: string | null;
@@ -22,11 +24,16 @@ export class Category {
     created_at: Date;
 
     constructor(props: CategoryConstructorProps) {
+        super();
         this.category_id = props.category_id || new Uuid();
         this.name = props.name;
         this.description = props.description ?? null;
         this.is_active = props.is_active ?? true;
         this.created_at = props.created_at ?? new Date();
+    }
+
+    get entity_id(): Uuid {
+        return this.category_id
     }
 
     static create(props: CategoryCreateCommand) {
@@ -47,6 +54,11 @@ export class Category {
 
     deactivate() {
         this.is_active = false;
+    }
+
+    validate(fields?: string[]) {
+        const validator = CategoryValidatorFactory.create();
+        return validator.validate(this.notification, this, fields);
     }
 
     toJSON() {
