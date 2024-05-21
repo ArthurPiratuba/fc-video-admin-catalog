@@ -1,4 +1,5 @@
 import { Entity } from "../../shared/domain/entity";
+import { ValueObject } from "../../shared/domain/value-object";
 import { CategoryValidatorFactory } from "./category.validator";
 import { Uuid } from "./value-objects/uuid.vo";
 
@@ -17,6 +18,9 @@ export type CategoryCreateCommand = {
 }
 
 export class Category extends Entity {
+    get entity_id(): ValueObject {
+        throw new Error("Method not implemented.");
+    }
     category_id: Uuid;
     name: string;
     description: string | null;
@@ -32,20 +36,20 @@ export class Category extends Entity {
         this.created_at = props.created_at ?? new Date();
     }
 
-    get entity_id(): Uuid {
-        return this.category_id
-    }
-
-    static create(props: CategoryCreateCommand) {
-        return new Category(props);
+    static create(props: CategoryCreateCommand): Category {
+        const category = new Category(props);
+        Category.validate(category);
+        return category;
     }
 
     changeName(name: string): void {
         this.name = name;
+        Category.validate(this);
     }
 
     changeDescription(description: string | null): void {
         this.description = description;
+        Category.validate(this);
     }
 
     activate() {
@@ -56,9 +60,9 @@ export class Category extends Entity {
         this.is_active = false;
     }
 
-    validate(fields?: string[]) {
+    static validate(entity: Category) {
         const validator = CategoryValidatorFactory.create();
-        return validator.validate(this.notification, this, fields);
+        return validator.validate(entity);
     }
 
     toJSON() {
