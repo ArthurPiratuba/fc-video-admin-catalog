@@ -19,9 +19,6 @@ export type CategoryCreateCommand = {
 }
 
 export class Category extends Entity {
-    get entity_id(): ValueObject {
-        throw new Error("Method not implemented.");
-    }
     category_id: Uuid;
     name: string;
     description: string | null;
@@ -35,6 +32,10 @@ export class Category extends Entity {
         this.description = props.description ?? null;
         this.is_active = props.is_active ?? true;
         this.created_at = props.created_at ?? new Date();
+    }
+
+    get entity_id(): ValueObject {
+        return this.category_id
     }
 
     static create(props: CategoryCreateCommand): Category {
