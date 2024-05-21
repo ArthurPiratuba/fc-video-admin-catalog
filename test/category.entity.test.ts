@@ -1,5 +1,7 @@
 import { Category } from "../src/category/domain/category.entity";
 import { Uuid } from "../src/category/domain/value-objects/uuid.vo";
+import { Entity } from "../src/shared/domain/entity";
+import { EntityValidatorError } from "../src/shared/domain/validators/validation.error";
 
 describe('Category Unit Tests', () => {
 
@@ -160,8 +162,8 @@ describe('Category Unit Tests', () => {
 
 describe("Category Validator", function () {
     describe("create command", function () {
-        Category.create({
-            name: null
-        })
+        test("xpto", function(){
+            expect(() => Category.create({ name: null })).toThrow("");
+        });
     });
 });

@@ -1,4 +1,5 @@
 import { Entity } from "../../shared/domain/entity";
+import { EntityValidatorError } from "../../shared/domain/validators/validation.error";
 import { ValueObject } from "../../shared/domain/value-object";
 import { CategoryValidatorFactory } from "./category.validator";
 import { Uuid } from "./value-objects/uuid.vo";
@@ -62,7 +63,10 @@ export class Category extends Entity {
 
     static validate(entity: Category) {
         const validator = CategoryValidatorFactory.create();
-        return validator.validate(entity);
+        const isValid = validator.validate(entity);
+        if (!isValid) {
+            throw new EntityValidatorError(validator.errors);
+        }
     }
 
     toJSON() {
